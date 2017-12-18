@@ -32,7 +32,12 @@ FILE(GLOB fileSrc ${dirCpp} src/*cpp)
 INCLUDE_DIRECTORIES(${dirInclude} ${opencv2} ${freenect2_INCLUDE_DIR})
 
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${dirBin})
-ADD_EXECUTABLE(server  ${fileSrc} )
+ADD_EXECUTABLE(k2cv  ${fileSrc} )
 
-TARGET_LINK_LIBRARIES(server opencv_highgui opencv_core opencv_imgproc opencv_videoio opencv_imgcodecs opencv_video pthread ${freenect2_LIBRARIES})
+TARGET_LINK_LIBRARIES(k2cv opencv_highgui opencv_core opencv_imgproc opencv_videoio opencv_imgcodecs opencv_video ${freenect2_LIBRARIES})
+
+install(TARGETS k2cv DESTINATION lib)
+install(FILES include/KinectHandler.h DESTINATION include)
+
+
 
