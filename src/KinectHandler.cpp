@@ -43,7 +43,7 @@ int KinectHandler::init(){
 	int types = 0;
 
 	if(freenect2.enumerateDevices() == 0){
-	   cout << "No device connected!" << endl;
+	   cout << KinectHandler::ERROR_NO_DEVICE << endl;
 	   return 0;
 	}
 
@@ -57,7 +57,7 @@ int KinectHandler::init(){
 	}
 
 	if(dev == NULL){
-		cout << "KinectHandler - failure opening device!"<<endl;
+		cout << ERROR_CANT_OPEN_DEVICE <<endl;
 		return 0;
 	}
 
@@ -65,7 +65,7 @@ int KinectHandler::init(){
 	types |= libfreenect2::Frame::Depth | libfreenect2::Frame::Ir;
 
 	if( !(listener = new libfreenect2::SyncMultiFrameListener(types) ) ){
-		cout << "KinectHandler - listener init error!"<<endl;
+		cout << ERROR_INIT_LISTENER <<endl;
 		return 0;
 	}
 
@@ -73,7 +73,7 @@ int KinectHandler::init(){
 	dev->setColorFrameListener(listener);
 
     if (!dev->startStreams(1, 1)){
-		cout << "KinectHandler - startStreams error!"<<endl;
+		cout << ERROR_STREAM <<endl;
     	return 0;
     }
 
@@ -89,7 +89,7 @@ libfreenect2::Frame* KinectHandler::update(){
 	libfreenect2::Frame *depth = NULL, *rgb, *ir;
 
 	if(! listener->waitForNewFrame(frames, 3*1000) ){
-		cout << "Kinect Timeout" << endl;
+		cout << KinectHandler::ERROR_TIMEOUT_MSG << endl;
 		return NULL;
 	}
 

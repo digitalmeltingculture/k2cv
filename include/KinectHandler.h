@@ -20,11 +20,16 @@ class KinectHandler{
 
 		bool protonect_shutdown;
 
-	public:
-		//Attributes
 		static const int DEPTH_WIDTH = 512;
 		static const int DEPTH_HEIGHT = 424;
 
+		const std::string ERROR_NO_DEVICE			= "Error: No device connected!";
+		const std::string ERROR_CANT_OPEN_DEVICE	= "Error: Failure opening device!";
+		const std::string ERROR_INIT_LISTENER		= "Error: listener init error!";
+		const std::string ERROR_STREAM				= "Error: startStreams error!";
+		const std::string ERROR_TIMEOUT_MSG			= "Error: Kinect Timeout!";
+	public:
+		//Attributes
 		static int exitCondition;
 
 		//Methods

@@ -24,21 +24,18 @@
 #include <opencv2/video.hpp>
 
 #include "KinectHandler.h"
-#include "BlobDetector.h"
 
 using namespace std;
 using namespace cv;
 
 int main(int argc, char** argv){
 	KinectHandler* handler = NULL;
-	BlobDetector* blobDetector = NULL;
 
-	Mat inputFrame, preprocessedFrame;
+	Mat inputFrame;
 
 	signal(SIGINT, KinectHandler::signalHandler);
 
 	handler = new KinectHandler();
-	blobDetector = new BlobDetector();
 
 	if( !handler->init() )
 		return 0;
@@ -53,14 +50,7 @@ int main(int argc, char** argv){
 	    	continue;
 	    }
 
-	    preprocessedFrame = blobDetector->preProcess(inputFrame);
-
-		vector<vector<Point> >blobs = blobDetector->detectBlobs(preprocessedFrame);
-
-		Mat drawing = blobDetector->drawBlob(blobs, KinectHandler::DEPTH_HEIGHT, KinectHandler::DEPTH_WIDTH );
 		imshow("asd", inputFrame);
-		imshow("asd2", preprocessedFrame);
-		imshow("qwr", drawing);
 
 		key = waitKey(60);
 	}
