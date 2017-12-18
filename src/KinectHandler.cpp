@@ -95,7 +95,7 @@ libfreenect2::Frame* KinectHandler::update(){
 
 	rgb		= frames[libfreenect2::Frame::Color];
 	ir		= frames[libfreenect2::Frame::Ir];
-	depth = frames[libfreenect2::Frame::Depth];
+	depth	= frames[libfreenect2::Frame::Depth];
 
 	listener->release(frames);
 

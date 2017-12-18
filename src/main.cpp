@@ -31,7 +31,8 @@ using namespace cv;
 int main(int argc, char** argv){
 	KinectHandler* handler = NULL;
 
-	Mat inputFrame;
+	Mat cvDepthFrame;
+	libfreenect2::Frame* freenectDepthFrame = NULL;
 
 	signal(SIGINT, KinectHandler::signalHandler);
 
@@ -42,17 +43,23 @@ int main(int argc, char** argv){
 
 	int key = -1;
 	while(!KinectHandler::exitCondition){
-		//handler->update();
-		inputFrame = handler->convertDepth2Cv(handler->update());
 
-	    if( inputFrame.rows == 0 || inputFrame.cols == 0 || inputFrame.data == NULL){
-	    	cout << "matrice vuota" << endl;
-	    	continue;
-	    }
+		if( (freenectDepthFrame = handler->update()) == NULL){
+	    	cout << "Main Error: Can't update Frame!" << endl;
+			KinectHandler::exitCondition = 1;
+		}
+		else{
+			cvDepthFrame = handler->convertDepth2Cv(freenectDepthFrame);
 
-		imshow("asd", inputFrame);
-
-		key = waitKey(60);
+			if( cvDepthFrame.rows == 0 || cvDepthFrame.cols == 0 || cvDepthFrame.data == NULL){
+				cout << "Main Error: No frame read!" << endl;
+				KinectHandler::exitCondition = 1;
+			}
+			else{
+				imshow("asd", cvDepthFrame);
+				key = waitKey(60);
+			}
+		}
 	}
 
 	handler->release();
